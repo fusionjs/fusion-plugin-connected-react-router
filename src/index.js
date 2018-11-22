@@ -6,24 +6,32 @@
  * @flow
  */
 
-import type {StoreEnhancer} from 'redux';
 import {createPlugin, createToken} from 'fusion-core';
-import type {Token} from 'fusion-core';
+import type {FusionPlugin} from 'fusion-core';
 import {
   routerMiddleware as createRouterMiddleware,
   connectRouter,
 } from 'connected-react-router';
 import {RouterToken} from 'fusion-plugin-react-router';
+import {EnhancerToken} from 'fusion-plugin-react-redux';
 
-export const ConnectedRouterEnhancerToken: Token<
-  StoreEnhancer<*, *, *>
-> = createToken('ConnectedRouterEnhancer');
+import type {
+  ConnectedReactRouterDepsType,
+  ConnectedReactRouterServiceType,
+} from './types.js';
 
-export default createPlugin({
+export const ConnectedRouterEnhancerToken: typeof EnhancerToken = createToken(
+  'ConnectedRouterEnhancer'
+);
+
+const plugin: FusionPlugin<
+  ConnectedReactRouterDepsType,
+  ConnectedReactRouterServiceType
+> = createPlugin({
   deps: {
     router: RouterToken,
   },
-  provides: ({router}): StoreEnhancer<*, *, *> => {
+  provides: ({router}): ConnectedReactRouterServiceType => {
     const enhancer = createStore => {
       return function _createStore(reducer, initialState) {
         const store = createStore(reducer, initialState);
@@ -43,3 +51,5 @@ export default createPlugin({
     return enhancer;
   },
 });
+
+export default plugin;
