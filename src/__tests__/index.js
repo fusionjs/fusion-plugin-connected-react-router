@@ -1,24 +1,33 @@
-// @flow
-import App from 'fusion-react';
-import {RenderToken, createPlugin} from 'fusion-core';
+/** Copyright (c) 2018 Uber Technologies, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
+ */
+
 import test from 'tape-cup';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
+import {connect} from 'react-redux';
+import {ConnectedRouter, push} from 'connected-react-router';
+
+import App from 'fusion-react';
+import {RenderToken, createPlugin} from 'fusion-core';
 import Router, {
   RouterToken,
   RouterProviderToken,
 } from 'fusion-plugin-react-router';
-import ConnectedRouterEnhancer, {
-  ConnectedRouterEnhancerToken,
-} from '../index.js';
 import ReduxPlugin, {
   ReduxToken,
   EnhancerToken,
   ReducerToken,
 } from 'fusion-plugin-react-redux';
-import {ConnectedRouter, push} from 'connected-react-router';
 import {getSimulator} from 'fusion-test-utils';
-import {connect} from 'react-redux';
+
+import ConnectedRouterEnhancer, {
+  ConnectedRouterEnhancerToken,
+} from '../index.js';
 
 test('An app', async t => {
   t.plan(5);
